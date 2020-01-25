@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from .models import UserProfileInfo
+from .forms import UserForm,UserProfileInfoForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
 def index(request):
-    return render(request, 'templates/index.html')
+    return render(request, 'index.html')
 
 @login_required
 def special(request):
@@ -35,7 +36,7 @@ def register(request):
     else:
         user_form = UserForm()
         profile_form = UserProfileInfoForm()
-    return render(request,'templates/registration.html',
+    return render(request,'registration.html',
                           {'user_form':user_form,
                            'profile_form':profile_form,
                            'registered':registered})
@@ -57,4 +58,4 @@ def user_login(request):
             print("They used username: {} and password: {}".format(username,password))
             return HttpResponse("Invalid login details given")
     else:
-        return render(request, 'templates/login.html', {})
+        return render(request, 'login.html', {})
