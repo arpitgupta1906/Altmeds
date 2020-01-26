@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import UserProfileInfo
+from .models import UserProfileInfo,headache,malaria
 from .forms import UserForm,UserProfileInfoForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
@@ -63,22 +63,26 @@ def user_login(request):
         return render(request, 'login.html', {})
 
 
-def headache(request):
-    a=['aspirin','crocin']
+
+
+def malaria1(request):
+    a=malaria.objects.all()
     if request.method=='POST':
         add=request.POST.get('add')
-        a.append(add)
-        return render(request,'headache.html',{'medicine':a})
+        d=malaria(name=add)
+        d.save()
+        a=malaria.objects.all()
+        return render(request,'malaria.html',{'medicine':a})
     else:
-        return render(request,'headache.html',{'medicine':a})
+        return render(request,'malaria.html',{'medicine':a})
 
-
-
-def malaria(request):
-    a=['Mefloquine','Qualaquin']
+def headache1(request):
+    a=headache.objects.all()
     if request.method=='POST':
         add=request.POST.get('add')
-        a.append(add)
+        d=headache(name=add)
+        d.save()
+        a=headache.objects.all()
         return render(request,'headache.html',{'medicine':a})
     else:
         return render(request,'headache.html',{'medicine':a})

@@ -2,16 +2,16 @@
 {% block body_block %}
   <div class="container">
       <div class="jumbotron">
-        <h1>
+        <h2>
           Suggested Alternatives are:
-        </h1>
+        </h2>
         {% for i in medicine%}
         <h3>{{ i }}</h3>
         {% endfor %}
       </div>
       {% if user.is_authenticated %}
 
-        <h2>Enter Medicine here :</h2><form method="post" action="{% url 'core:headache' %}">
+        <h2>Enter Alternative here :</h2><form method="post" action="{% url 'core:headache' %}">
           {% csrf_token %}
           <label for="username">Enter Medicine: </label>
           <input type="text" name="add" placeholder="add medicine">
@@ -20,6 +20,6 @@
 
         </form>
 
-      {% endif %}}
+      {% endif %}
   </div>
 {% endblock %}

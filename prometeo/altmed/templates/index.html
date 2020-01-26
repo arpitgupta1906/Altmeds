@@ -49,6 +49,25 @@
   display: block;
 }
 
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 4px;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  flex: 50%;
+  padding: 0 4px;
+}
+
+.column1 {
+  flex: 50%;
+  height: 100px;
+  width:500px;
+  padding: 0 4px;
+}
+
 .dropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
@@ -64,9 +83,17 @@
         <h2>Get Alternatives for your medicines</h2>
     {% endif %}
   </div>
-
+    <h4>
+      <p>
+      Our solution is to create a blockchain network where highly professional doctors post
+     the alternatives for medicine
+    </p>
+    </h4>
+    <div align="center">
   <h2>Search/Filter Dropdown</h2>
+  <hr color="#000000">
   <p>Select medicines according to Diseases</p>
+</div>
 <style media="screen">
 .dropbtn {
   background-color: #4CAF50;
@@ -121,6 +148,7 @@
 .show {display: block;}
 
 </style>
+<div align="center">
   <div class="dropdown">
     <button onclick="myFunction()" class="dropbtn">Search Your Category</button>
     <div id="myDropdown" class="dropdown-content">
@@ -132,7 +160,7 @@
 
     </div>
   </div>
-
+</div>
   <script>
   /* When the user clicks on the button,
   toggle between hiding and showing the dropdown content */
