@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block body_block %}
+  <div class="container">
+      <div class="jumbotron">
+        <h1>
+          Suggested Alternatives are:
+        </h1>
+        {% for i in medicine%}
+        <h3>{{ i }}</h3>
+        {% endfor %}
+      </div>
+      {% if user.is_authenticated %}
+
+        <h2>Enter Medicine here :</h2><form method="post" action="{% url 'core:headache' %}">
+          {% csrf_token %}
+          <label for="username">Enter Medicine: </label>
+          <input type="text" name="add" placeholder="add medicine">
+
+          <input type="submit" name="" value="submit">
+
+        </form>
+
+      {% endif %}}
+  </div>
+{% endblock %}

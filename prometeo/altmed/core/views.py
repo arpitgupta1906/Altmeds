@@ -47,15 +47,38 @@ def user_login(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-        if user:
+        if user and UserProfileInfo.isApproved!=0:
             if user.is_active:
                 login(request,user)
                 return HttpResponseRedirect(reverse('index'))
             else:
                 return HttpResponse("Your account was inactive.")
+                # return render(request,'badlogin.html')
         else:
             print("Someone tried to login and failed.")
             print("They used username: {} and password: {}".format(username,password))
-            return HttpResponse("Invalid login details given")
+            # return HttpResponse("Invalid login details given")
+            return render(request,'badlogin.html')
     else:
         return render(request, 'login.html', {})
+
+
+def headache(request):
+    a=['aspirin','crocin']
+    if request.method=='POST':
+        add=request.POST.get('add')
+        a.append(add)
+        return render(request,'headache.html',{'medicine':a})
+    else:
+        return render(request,'headache.html',{'medicine':a})
+
+
+
+def malaria(request):
+    a=['Mefloquine','Qualaquin']
+    if request.method=='POST':
+        add=request.POST.get('add')
+        a.append(add)
+        return render(request,'headache.html',{'medicine':a})
+    else:
+        return render(request,'headache.html',{'medicine':a})
