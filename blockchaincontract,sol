@@ -1,0 +1,114 @@
+pragma solidity ^0.4.17;
+
+contract Hospital
+{
+    address public admin;
+   
+    function Hospital() public
+    {
+        admin = msg.sender;
+    }
+   
+    modifier onlyAdmin()
+    {
+        require(msg.sender == admin);
+        _;
+    }
+   
+    struct DoctorStruct
+    {
+        string DoctorName;
+        string DoctorId;
+        string HospitalName;
+        bool IsVerified;
+    }
+   
+    address[] public Doctors;
+   
+    mapping(address => DoctorStruct) public DoctorDetails;
+   
+    struct Field{
+        address DoctorAddress;
+        string[] alternative;
+    }
+   
+    string[] public FieldString;
+   
+    mapping(int => Field) public FieldDetails;
+   
+   
+    function SignInDoctor(
+        string _DoctorName,
+        string _DoctorId,
+        string _HospitalName
+        ) public {
+           
+            DoctorStruct memory newDoctor = DoctorStruct({
+                DoctorName : _DoctorName,
+                DoctorId : _DoctorId,
+                HospitalName : _HospitalName,
+                IsVerified : false
+               
+            });
+           
+            Doctors.push(msg.sender);
+            DoctorDetails[msg.sender] = newDoctor;
+           
+        }
+   
+    function verifyDoctor(address _address) public onlyAdmin
+    {
+        DoctorDetails[_address].IsVerified = true;
+    }
+   
+    function AddField(string field) public onlyAdmin
+    {
+        FieldString.push(field);
+    }
+   
+    function CompareStrings(string memory a, string memory b) internal pure returns (bool) {
+        if(bytes(a).length != bytes(b).length) {
+            return false;
+        } else {
+            return keccak256(a) == keccak256(b);
+        }
+    }
+   
+    function AddAlternatives(string disease, string medicine, string alternative) public
+    {
+        require(DoctorDetails[msg.sender].IsVerified);
+       
+        int sickInt;
+       
+        for(uint i=0; i < FieldString.length ;i++)
+        {
+            if(CompareStrings(FieldString[i] , disease))
+            {
+                sickInt = int(i);
+                break;
+            }
+        }
+
+        FieldDetails[sickInt].alternative.push(medicine);
+        FieldDetails[sickInt].alternative.push(alternative);
+        FieldDetails[sickInt].DoctorAddress = msg.sender;
+    }
+   
+    function Search_Medicine(string disease) public view returns(address)
+    {
+        int sickInt;
+       
+        for(uint i=0; i < FieldString.length ;i++)
+        {
+            if(CompareStrings(FieldString[i] , disease))
+            {
+                sickInt = int(i);
+                break;
+            }
+        }
+       
+        return FieldDetails[sickInt].DoctorAddress;
+    }
+   
+   
+}
